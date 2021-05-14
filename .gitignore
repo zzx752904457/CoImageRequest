@@ -1,0 +1,55 @@
+# Built application files
+*.apk
+*.ap_
+
+# Files for the Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Generated files
+bin/
+gen/
+captures/
+*.hprof
+
+# Gradle files
+.gradle/
+build/
+
+# IDEA
+*.iml
+.idea
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Log Files
+*.log
+
+*.DS_Store
+/app/smallLibs
+/build-small
+/.idea
+/*/.externalNativeBuild
+
+/app+frame/src/main/jniLibs/x86_64
+node_modules/
+*.bundle
+*.bundle.meta
+package.json
+package-lock.json
+ReactNative/
+yh-cloud/
+yhcloud.android.js
+
+#small sourceCode
+
+#RN
+node_modules/
+
+#PLANTUML
+*.plantuml
+*.puml
+
