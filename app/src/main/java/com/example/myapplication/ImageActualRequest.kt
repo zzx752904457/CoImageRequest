@@ -19,7 +19,7 @@ class ImageActualRequest(private val bitmapCache: BitmapCache, private val callF
         return if (bitmapCache.get(url) != null) {
             bitmapCache.get(url)
         } else {
-            val request = Request.Builder().url(url).headers(Headers.Builder().build())
+            val request = Request.Builder().url(url)
             val result = suspendCancellableCoroutine<Response> { continuation ->
                 callFactory.newCall(request.build()).enqueue(object : Callback {
                     override fun onFailure(call: Call, e: IOException) {

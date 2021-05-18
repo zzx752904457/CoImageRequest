@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.ApplicationInfo
 import android.util.Log
 import androidx.core.content.getSystemService
+import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
 import okhttp3.Call
 import okhttp3.OkHttpClient
@@ -18,20 +19,23 @@ class ActualImageLoader(private val bitmapCache: BitmapCache, private val callFa
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    fun loadImage(url: String?): ImageDispose {
+    fun loadImage(url: String?, liveData: MutableLiveData<ImageTarget>): ImageDispose {
         val imageResult = ImageDispose()
+        val imageTarget = ImageTarget()
         imageResult.job = scope.launch(
             CoroutineExceptionHandler { _, throwable ->
                 Log.e("ImageLoader", throwable.message ?: "")
-                imageResult.status = STATUS_FAILED
+                imageTarget.status = STATUS_FAILED
+                liveData.postValue(imageTarget)
             }
         ) {
             val bitmap = withContext(Dispatchers.IO) {
                 val imageRequest = ImageActualRequest(bitmapCache, callFactory)
                 imageRequest.request(url)
             }
-            imageResult.status = STATUS_SUCCESS
-            imageResult.bitmap = bitmap
+            imageTarget.status = STATUS_SUCCESS
+            imageTarget.bitmap = bitmap
+            liveData.postValue(imageTarget)
         }
         return imageResult
     }
